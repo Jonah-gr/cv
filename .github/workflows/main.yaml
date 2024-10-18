@@ -31,6 +31,8 @@ jobs:
         git add cv.pdf
         git commit -m "Add compiled PDF"
         git push origin main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push PDF to website repo
       run: |
