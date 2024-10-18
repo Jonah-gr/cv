@@ -36,6 +36,7 @@ jobs:
 
     - name: Push PDF to website repo
       run: |
+        cd ..
         git clone https://x-access-token:${{ secrets.WEBSITE_TOKEN }}@github.com/Jonah-gr/Jonah-gr.github.io.git
         git pull
         cp cv.pdf Jonah-gr.github.io/public/cv.pdf
@@ -44,4 +45,4 @@ jobs:
         git config user.email "actions@github.com"
         git add public/cv.pdf
         git commit -m "Add compiled cv"
-        git push
+        git push --verbose
