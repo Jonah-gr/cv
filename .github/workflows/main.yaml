@@ -1,0 +1,44 @@
+name: Compile LaTeX Document
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up LaTeX
+      uses: xu-cheng/latex-action@v3
+      with:
+        root_file: src/cv.tex
+
+    - name: Upload PDF as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: compiled-pdf
+        path: cv.pdf
+    
+    - name: Commit compiled PDF to the cv repository
+      run: |
+        git config --local user.name "GitHub Action"
+        git config --local user.email "actions@github.com"
+        git add cv.pdf
+        git commit -m "Add compiled PDF"
+        git push origin main
+
+    - name: Push PDF to website repo
+      run: |
+        git clone https://x-access-token:${{ secrets.WEBSITE_TOKEN }}@github.com/Jonah-gr/Jonah-gr.github.io.git
+        cp cv.pdf Jonah-gr.github.io/public/cv.pdf
+        cd Jonah-gr.github.io
+        git config user.name "GitHub Action"
+        git config user.email "actions@github.com"
+        git add public/files/cv.pdf
+        git commit -m "Add compiled cv"
+        git push
