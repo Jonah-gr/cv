@@ -34,7 +34,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Push PDF to website repo
+    - name: Push PDF to website repository
       run: |
         cd ..
         git clone https://x-access-token:${{ secrets.WEBSITE_TOKEN }}@github.com/Jonah-gr/Jonah-gr.github.io.git
